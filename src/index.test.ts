@@ -3,7 +3,7 @@ import {
   isSchema,
   validate,
   isValidSchema,
-  MaxDepthExceededError
+  MaxDepthExceededError,
 } from "./index";
 
 describe("validation", () => {

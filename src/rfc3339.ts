@@ -1,6 +1,7 @@
-/** @ignore *//** */
+/** @ignore */ /** */
 
-const pattern = /^(\d{4})-(\d{2})-(\d{2})[tT](\d{2}):(\d{2}):(\d{2})(\.\d+)?([zZ]|((\+|-)(\d{2}):(\d{2})))$/
+const pattern =
+  /^(\d{4})-(\d{2})-(\d{2})[tT](\d{2}):(\d{2}):(\d{2})(\.\d+)?([zZ]|((\+|-)(\d{2}):(\d{2})))$/;
 
 export default function isRFC3339(s: string): boolean {
   const matches = s.match(pattern);
