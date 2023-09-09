@@ -12,7 +12,7 @@ describe("validation", () => {
     const instance = null;
 
     expect(() =>
-      validate(schema, instance, { maxDepth: 5, maxErrors: 0 })
+      validate(schema, instance, { maxDepth: 5, maxErrors: 0 }),
     ).toThrow(MaxDepthExceededError);
   });
 
@@ -21,7 +21,7 @@ describe("validation", () => {
     const instance = [null, null, null, null, null];
 
     expect(
-      validate(schema, instance, { maxDepth: 0, maxErrors: 3 })
+      validate(schema, instance, { maxDepth: 0, maxErrors: 3 }),
     ).toHaveLength(3);
   });
 });
@@ -29,13 +29,13 @@ describe("validation", () => {
 describe("json-typedef-spec", () => {
   describe("invalid_schemas", () => {
     const testCases: { [name: string]: unknown } = JSON.parse(
-      readFileSync("json-typedef-spec/tests/invalid_schemas.json", "utf-8")
+      readFileSync("json-typedef-spec/tests/invalid_schemas.json", "utf-8"),
     );
 
     for (const [name, invalidSchema] of Object.entries(testCases)) {
       it(name, () => {
         expect(isSchema(invalidSchema) && isValidSchema(invalidSchema)).toBe(
-          false
+          false,
         );
       });
     }
@@ -54,11 +54,11 @@ describe("json-typedef-spec", () => {
     }
 
     const testCases: { [name: string]: TestCase } = JSON.parse(
-      readFileSync("json-typedef-spec/tests/validation.json", "utf-8")
+      readFileSync("json-typedef-spec/tests/validation.json", "utf-8"),
     );
 
     for (const [name, { schema, instance, errors }] of Object.entries(
-      testCases
+      testCases,
     )) {
       it(name, () => {
         expect(isSchema(schema)).toBe(true);

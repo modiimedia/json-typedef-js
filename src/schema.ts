@@ -171,7 +171,7 @@ export function isElementsForm(schema: Schema): schema is SchemaFormElements {
  * @param schema The schema to validate
  */
 export function isPropertiesForm(
-  schema: Schema
+  schema: Schema,
 ): schema is SchemaFormProperties {
   return "properties" in schema || "optionalProperties" in schema;
 }
@@ -191,7 +191,7 @@ export function isValuesForm(schema: Schema): schema is SchemaFormValues {
  * @param schema The schema to validate
  */
 export function isDiscriminatorForm(
-  schema: Schema
+  schema: Schema,
 ): schema is SchemaFormDiscriminator {
   return "discriminator" in schema;
 }
@@ -235,7 +235,7 @@ export function isValidSchema(schema: Schema, root?: Schema): boolean {
   }
 
   if (isRefForm(schema)) {
-    if (!(schema.ref in (root.definitions || {}))) {
+    if (!(schema.ref in (root.definitions ?? {}))) {
       return false;
     }
   }
@@ -255,20 +255,20 @@ export function isValidSchema(schema: Schema, root?: Schema): boolean {
   }
 
   if (isPropertiesForm(schema)) {
-    for (const subSchema of Object.values(schema.properties || {})) {
+    for (const subSchema of Object.values(schema.properties ?? {})) {
       if (!isValidSchema(subSchema, root)) {
         return false;
       }
     }
 
-    for (const subSchema of Object.values(schema.optionalProperties || {})) {
+    for (const subSchema of Object.values(schema.optionalProperties ?? {})) {
       if (!isValidSchema(subSchema, root)) {
         return false;
       }
     }
 
-    for (const key of Object.keys(schema.properties || {})) {
-      if (key in (schema.optionalProperties || {})) {
+    for (const key of Object.keys(schema.properties ?? {})) {
+      if (key in (schema.optionalProperties ?? {})) {
         return false;
       }
     }
@@ -288,11 +288,11 @@ export function isValidSchema(schema: Schema, root?: Schema): boolean {
         return false;
       }
 
-      if (schema.discriminator in (subSchema.properties || {})) {
+      if (schema.discriminator in (subSchema.properties ?? {})) {
         return false;
       }
 
-      if (schema.discriminator in (subSchema.optionalProperties || {})) {
+      if (schema.discriminator in (subSchema.optionalProperties ?? {})) {
         return false;
       }
     }

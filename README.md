@@ -38,8 +38,8 @@ https://jsontypedef.github.io/json-typedef-js/index.html
 For more high-level documentation about JSON Typedef in general, or JSON Typedef
 in combination with JavaScript in particular, see:
 
-* [The JSON Typedef Website][jtd]
-* ["Generating TypeScript from JSON Typedef Schemas"][jtd-ts-codegen]
+- [The JSON Typedef Website][jtd]
+- ["Generating TypeScript from JSON Typedef Schemas"][jtd-ts-codegen]
 
 ## Basic Usage
 
@@ -56,20 +56,22 @@ const schema = {
     name: { type: "string" },
     age: { type: "uint32" },
     phones: {
-      elements: { type: "string" }
-    }
-  }
+      elements: { type: "string" },
+    },
+  },
 } as Schema;
 
 // jtd.validate returns an array of validation errors. If there were no problems
 // with the input, it returns an empty array.
 
 // Outputs: []
-console.log(validate(schema, {
-  name: "John Doe",
-  age: 43,
-  phones: ["+44 1234567", "+44 2345678"],
-}))
+console.log(
+  validate(schema, {
+    name: "John Doe",
+    age: 43,
+    phones: ["+44 1234567", "+44 2345678"],
+  }),
+);
 
 // This next input has three problems with it:
 //
@@ -92,10 +94,12 @@ console.log(validate(schema, {
 //     schemaPath: [ 'properties', 'phones', 'elements', 'type' ]
 //   }
 // ]
-console.log(validate(schema, {
-  age: "43",
-  phones: ["+44 1234567", 442345678],
-}))
+console.log(
+  validate(schema, {
+    age: "43",
+    phones: ["+44 1234567", 442345678],
+  }),
+);
 ```
 
 ## Advanced Usage: Limiting Errors Returned
@@ -112,10 +116,16 @@ get:
 // Outputs:
 //
 // [ { instancePath: [], schemaPath: [ 'properties', 'name' ] } ]
-console.log(validate(schema, {
-  age: "43",
-  phones: ["+44 1234567", 442345678],
-}, { maxErrors: 1 }))
+console.log(
+  validate(
+    schema,
+    {
+      age: "43",
+      phones: ["+44 1234567", 442345678],
+    },
+    { maxErrors: 1 },
+  ),
+);
 ```
 
 ## Advanced Usage: Handling Untrusted Schemas
@@ -177,14 +187,17 @@ validateUntrusted({ type: "string" }, null);
 validateUntrusted({ type: "nonsense" }, null);
 
 // Throws an instance of jtd.MaxDepthExceededError
-validateUntrusted({
-  "ref": "loop",
-  "definitions": {
-    "loop": {
-      "ref": "loop"
-    }
-  }
-}, null);
+validateUntrusted(
+  {
+    ref: "loop",
+    definitions: {
+      loop: {
+        ref: "loop",
+      },
+    },
+  },
+  null,
+);
 ```
 
 [jtd]: https://jsontypedef.com

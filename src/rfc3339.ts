@@ -40,7 +40,7 @@ export default function isRFC3339(s: string): boolean {
   return true;
 }
 
-function maxDay(year: number, month: number) {
+function maxDay(year: number, month: number): number {
   if (month === 2) {
     return isLeapYear(year) ? 29 : 28;
   }

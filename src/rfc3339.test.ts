@@ -1,5 +1,4 @@
-
-import isRFC3339 from "./rfc3339"
+import isRFC3339 from "./rfc3339";
 
 describe("isRFC3339", () => {
   const testCases = {
@@ -32,11 +31,11 @@ describe("isRFC3339", () => {
     // Ensure the regex is anchored
     "x1985-04-12T23:20:50.52Zx": false,
     "1985-04-12T23:20:50.52Zx": false,
-  }
+  };
 
   for (const [s, expected] of Object.entries(testCases)) {
     it(`correctly validates ${s}`, () => {
-      expect(isRFC3339(s)).toEqual(expected)
-    })
+      expect(isRFC3339(s)).toEqual(expected);
+    });
   }
-})
+});

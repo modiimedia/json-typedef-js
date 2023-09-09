@@ -10,7 +10,7 @@
 
 import isRFC3339 from "./rfc3339";
 import {
-  Schema,
+  type Schema,
   isRefForm,
   isTypeForm,
   isEnumForm,
@@ -115,14 +115,14 @@ export interface ValidationError {
 export function validate(
   schema: Schema,
   instance: unknown,
-  config?: ValidationConfig
+  config?: ValidationConfig,
 ): ValidationError[] {
   const state = {
     errors: [],
     instanceTokens: [],
     schemaTokens: [[]],
     root: schema,
-    config: config || { maxDepth: 0, maxErrors: 0 },
+    config: config ?? { maxDepth: 0, maxErrors: 0 },
   };
 
   try {
@@ -152,8 +152,8 @@ function validateWithState(
   state: ValidationState,
   schema: Schema,
   instance: unknown,
-  parentTag?: string
-) {
+  parentTag?: string,
+): void {
   if (schema.nullable && instance === null) {
     return;
   }
@@ -166,7 +166,11 @@ function validateWithState(
     // The ref form is the only case where we push a new array onto
     // schemaTokens; we maintain a separate stack for each reference.
     state.schemaTokens.push(["definitions", schema.ref]);
-    validateWithState(state, state.root.definitions![schema.ref], instance);
+    validateWithState(
+      state,
+      state.root.definitions?.[schema.ref] ?? {},
+      instance,
+    );
     state.schemaTokens.pop();
   } else if (isTypeForm(schema)) {
     pushSchemaToken(state, "type");
@@ -255,7 +259,7 @@ function validateWithState(
         pushSchemaToken(state, "properties");
         for (const [name, subSchema] of Object.entries(schema.properties)) {
           pushSchemaToken(state, name);
-          if (instance.hasOwnProperty(name)) {
+          if (name in instance) {
             pushInstanceToken(state, name);
             validateWithState(state, subSchema, (instance as any)[name]);
             popInstanceToken(state);
@@ -270,10 +274,10 @@ function validateWithState(
       if (schema.optionalProperties !== undefined) {
         pushSchemaToken(state, "optionalProperties");
         for (const [name, subSchema] of Object.entries(
-          schema.optionalProperties
+          schema.optionalProperties,
         )) {
           pushSchemaToken(state, name);
-          if (instance.hasOwnProperty(name)) {
+          if (name in instance) {
             pushInstanceToken(state, name);
             validateWithState(state, subSchema, (instance as any)[name]);
             popInstanceToken(state);
@@ -334,7 +338,7 @@ function validateWithState(
       instance !== null &&
       !Array.isArray(instance)
     ) {
-      if (instance.hasOwnProperty(schema.discriminator)) {
+      if (schema.discriminator in instance) {
         const tag = (instance as any)[schema.discriminator];
 
         if (typeof tag === "string") {
@@ -345,7 +349,7 @@ function validateWithState(
               state,
               schema.mapping[tag],
               instance,
-              schema.discriminator
+              schema.discriminator,
             );
             popSchemaToken(state);
             popSchemaToken(state);
@@ -380,8 +384,8 @@ function validateInt(
   state: ValidationState,
   instance: unknown,
   min: number,
-  max: number
-) {
+  max: number,
+): void {
   if (
     typeof instance !== "number" ||
     !Number.isInteger(instance) ||
@@ -392,23 +396,23 @@ function validateInt(
   }
 }
 
-function pushInstanceToken(state: ValidationState, token: string) {
+function pushInstanceToken(state: ValidationState, token: string): void {
   state.instanceTokens.push(token);
 }
 
-function popInstanceToken(state: ValidationState) {
+function popInstanceToken(state: ValidationState): void {
   state.instanceTokens.pop();
 }
 
-function pushSchemaToken(state: ValidationState, token: string) {
+function pushSchemaToken(state: ValidationState, token: string): void {
   state.schemaTokens[state.schemaTokens.length - 1].push(token);
 }
 
-function popSchemaToken(state: ValidationState) {
+function popSchemaToken(state: ValidationState): void {
   state.schemaTokens[state.schemaTokens.length - 1].pop();
 }
 
-function pushError(state: ValidationState) {
+function pushError(state: ValidationState): void {
   state.errors.push({
     instancePath: [...state.instanceTokens],
     schemaPath: [...state.schemaTokens[state.schemaTokens.length - 1]],
