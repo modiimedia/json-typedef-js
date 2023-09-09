@@ -171,7 +171,7 @@ export function isElementsForm(schema: Schema): schema is SchemaFormElements {
  * @param schema The schema to validate
  */
 export function isPropertiesForm(
-  schema: Schema,
+  schema: Schema
 ): schema is SchemaFormProperties {
   return "properties" in schema || "optionalProperties" in schema;
 }
@@ -191,7 +191,7 @@ export function isValuesForm(schema: Schema): schema is SchemaFormValues {
  * @param schema The schema to validate
  */
 export function isDiscriminatorForm(
-  schema: Schema,
+  schema: Schema
 ): schema is SchemaFormDiscriminator {
   return "discriminator" in schema;
 }
