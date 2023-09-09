@@ -109,10 +109,14 @@ export type SchemaFormDiscriminator = SharedFormProperties & {
 /**
  * SharedFormProperties contains the properties shared among all schema forms.
  */
-interface SharedFormProperties {
+export interface SharedFormProperties {
   definitions?: { [definition: string]: Schema };
-  metadata?: { [name: string]: unknown };
+  metadata?: SchemaMetadata;
   nullable?: boolean;
+}
+
+export interface SchemaMetadata {
+  [key: string]: unknown;
 }
 
 /**
