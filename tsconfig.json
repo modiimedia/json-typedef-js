@@ -3,10 +3,9 @@
     "declaration": true,
     "strict": true,
     "target": "ES2020",
-    "rootDir": "src",
-    "outDir": "lib",
     "esModuleInterop": true,
     "moduleResolution": "Node",
     "types": ["vitest/globals", "node"]
-  }
+  },
+  "exclude": ["lib", "node_modules"]
 }

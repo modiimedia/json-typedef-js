@@ -2,16 +2,23 @@
   "name": "@modii/jtd",
   "version": "0.1.3",
   "description": "A JavaScript / TypeScript / Node.js implementation of JSON Type Definition",
-  "main": "lib/index.js",
   "files": [
     "lib"
   ],
-  "repository": "https://github.com/jsontypedef/json-typedef-js",
+  "main": "./lib/index.cjs",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./lib/index.mjs",
+      "require": "./lib/index.cjs"
+    }
+  },
+  "repository": "https://github.com/modiimedia/json-typedef-js",
   "author": "JSON Type Definition Contributors",
   "license": "MIT",
   "scripts": {
     "prepublish": "pnpm test && pnpm run build",
-    "build": "tsc",
+    "build": "tsc --noEmit && unbuild",
     "test": "vitest run --globals",
     "format": "prettier --write ."
   },
@@ -22,11 +29,12 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-standard-with-typescript": "^39.0.0",
     "eslint-plugin-import": "^2.25.2",
-    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-n": "^16.1.0",
     "eslint-plugin-promise": "^6.0.0",
     "prettier": "^3.0.3",
     "typedoc": "^0.25.1",
     "typescript": "^5.2.2",
+    "unbuild": "^2.0.0",
     "vitest": "^0.34.4"
   }
 }
