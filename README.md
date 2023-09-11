@@ -1,3 +1,5 @@
+This is a fork of the official [json-typedef-js](https://github.com/jsontypedef/json-typedef-js) that provides improved ESM support while (hopefully) maintaining compatibility with legacy CommonJS stuff.
+
 # jtd: JSON Validation for JavaScript
 
 [![npm](https://img.shields.io/npm/v/jtd)](https://www.npmjs.com/package/jtd)
@@ -70,7 +72,7 @@ console.log(
     name: "John Doe",
     age: 43,
     phones: ["+44 1234567", "+44 2345678"],
-  }),
+  })
 );
 
 // This next input has three problems with it:
@@ -98,7 +100,7 @@ console.log(
   validate(schema, {
     age: "43",
     phones: ["+44 1234567", 442345678],
-  }),
+  })
 );
 ```
 
@@ -123,8 +125,8 @@ console.log(
       age: "43",
       phones: ["+44 1234567", 442345678],
     },
-    { maxErrors: 1 },
-  ),
+    { maxErrors: 1 }
+  )
 );
 ```
 
@@ -196,7 +198,7 @@ validateUntrusted(
       },
     },
   },
-  null,
+  null
 );
 ```
 
