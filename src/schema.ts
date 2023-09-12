@@ -63,6 +63,13 @@ export const TypeValues = [
  */
 export type Type = (typeof TypeValues)[number];
 
+export function isType(input: unknown): input is Type {
+  if (typeof input !== "string") {
+    return false;
+  }
+  return TypeValues.includes(input as any);
+}
+
 /**
  * SchemaFormEnum represents schemas of the enum form.
  */
