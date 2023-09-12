@@ -44,21 +44,24 @@ export type SchemaFormType = SharedFormProperties & {
   type: Type;
 };
 
+export const TypeValues = [
+  "boolean",
+  "float32",
+  "float64",
+  "int8",
+  "uint8",
+  "int16",
+  "uint16",
+  "int32",
+  "uint32",
+  "string",
+  "timestamp",
+] as const;
+
 /**
  * Type represents the legal values of the "type" keyword in JSON Typedef.
  */
-export type Type =
-  | "boolean"
-  | "float32"
-  | "float64"
-  | "int8"
-  | "uint8"
-  | "int16"
-  | "uint16"
-  | "int32"
-  | "uint32"
-  | "string"
-  | "timestamp";
+export type Type = (typeof TypeValues)[number];
 
 /**
  * SchemaFormEnum represents schemas of the enum form.
@@ -144,7 +147,11 @@ export function isRefForm(schema: Schema): schema is SchemaFormRef {
  * @param schema The schema to validate
  */
 export function isTypeForm(schema: Schema): schema is SchemaFormType {
-  return "type" in schema;
+  return (
+    "type" in schema &&
+    typeof schema.type === "string" &&
+    TypeValues.includes(schema.type as any)
+  );
 }
 
 /**
